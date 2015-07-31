@@ -16,14 +16,14 @@ class Data():
 			self.time[i] = self.time[i]/3600.
 
 	@classmethod
-	def show(cls):
-		# xlim(0,15000)
+	def show(cls,savename="capacity_time",icon='lower right'):
+		xlim(0,6)
 		title("discharging")
 		xlabel("time /h")
 		ylabel("capacity /%")
 		grid(True)
-		legend(loc='upper right')
-		savefig("capacity_time.jpg")
+		legend(loc=icon)
+		savefig(savename+'.jpg')
 		show()
 
 
@@ -55,18 +55,15 @@ class Log_data(Data):
   			self.time[x] = self.time[x] - device_time_base
   		self.second2hour()
 
+def receive(filenames):
+	for f in filenames:
+		namesplit = f.split('.')
+		if namesplit[1] == 'txt':
+			Log_data(f).plot()
+		elif namesplit[1] == 'xls':
+			Excel_data(f).plot()
 
 if __name__ == '__main__':
-	connected_437_charge = Excel_data("437_connected_Book1.xls")
-	connected_437_charge_log = Log_data("437_connected_BatteryLog.txt")
-	disconnected_437_battery_log = Log_data("437_disconnected_BatteryLog.txt")
-	discharge_430 = Excel_data("430_discharge_Book1.xls")
-	discharge_430_log = Log_data("430_discharge_BatteryLog.txt")
-	connected_437_charge.plot()
-	connected_437_charge_log.plot()
-	disconnected_437_battery_log.plot()
-	discharge_430.plot()
-	discharge_430_log.plot()
-	Data.show()
-
-
+	files = ["430_discharge_Book1.xls", "430_discharge_BatteryLog.txt"]
+	receive(files)
+	Data.show(savename='430_discharge', icon='upper right')
