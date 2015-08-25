@@ -115,10 +115,11 @@ class Log_data(Data):
         self.time = []
         self.percent = []
         for line in self.devie_log.readlines():
-            time = ' '.join(line.split()[0:2])
-            self.time.append(int(parse(time).epoch()))
-            percent = line.split()[2].split('%')
-            self.percent.append(int(percent[0]))
+            if len(line.split()) > 1:
+                time = ' '.join(line.split()[0:2])
+                self.time.append(int(parse(time).epoch()))
+                percent = line.split()[2].split('%')
+                self.percent.append(int(percent[0]))
         m = len(self.time)
         device_time_base = self.time[0]
         for x in range(m):
