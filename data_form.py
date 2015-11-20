@@ -67,8 +67,6 @@ class Excel_data(Data):
             self.charge = True
             icon = 'upper right'
             savename = filename.split('.')[0] + '_discharge'
-        # logging.info('the test is %s' %
-        #              ('charge' if self.charge else 'discharge'))
         self.percent = self.current2percent(current_col)
         self.second2hour()
 
@@ -81,19 +79,6 @@ class Excel_data(Data):
         time_base = time_float[0] * 100000
         for i, v in enumerate(time_float):
             time_second.append(round(v * 100000 - time_base,2))
-        #     # int(parse(v).epoch())
-        #     # print v
-        #     time_origin.append(int(v * 3600 * 24))
-        #     if i > 0 and (time_origin[i] < time_origin[i - 1]):
-        #         days_index.append(i)
-        # days_index.append(len(time_origin))
-        # logging.info("days_index is")
-        # logging.info(days_index)
-        # for i in range(len(days_index) - 1):
-        #     extra_time = i * 3600 * 24
-        #     for n in range(days_index[i], days_index[i + 1]):
-        #         time_second.append(time_origin[n] + extra_time)
-        # print time_second
         return time_second
 
     def current2percent(self, current_col):
