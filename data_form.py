@@ -27,6 +27,7 @@ class Data():
         print filenames
         for f in filenames:
             namesplit = f.split('.')
+            print f
             if len(namesplit) == 1:
                 continue
             if namesplit[1] == 'txt':
@@ -71,14 +72,12 @@ class Excel_data(Data):
         self.second2hour()
 
     def time2second(self, time_col):
-        time_second = []
-        time_origin = []
+        # time_second = []
         time_float = self.PC_table.col_values(time_col)
         days_index = []
         days_index.append(0)
         time_base = time_float[0] * 100000
-        for i, v in enumerate(time_float):
-            time_second.append(round(v * 100000 - time_base,2))
+        time_second = [round(v * 100000 - time_base,2) for v in time_float]
         return time_second
 
     def current2percent(self, current_col):
@@ -91,15 +90,9 @@ class Excel_data(Data):
             capacity = round(
                 currents[i] * (self.time[i] - self.time[i - 1]) / 3600. + capacity, 2)
             capacity_rows.append(capacity)
-        # print capacity_rows
+        
         ch_flag = 0 if self.charge else 1
-        for i, v in enumerate(capacity_rows):
-            # logging.info(
-            #     round(abs((v - ch_flag * capacity)) / capacity * 100, 1))
-            percent.append(
-                round(abs((v - ch_flag * capacity)) / capacity * 100, 1))
-        # logging.info("capacity is %d" % capacity)
-        # print percent
+        percent = [round(abs((v - ch_flag * capacity)) / capacity * 100, 1) for v in capacity_rows]
         return percent
 
 
